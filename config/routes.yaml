@@ -15,3 +15,9 @@ app_login:
 app_logout:
     path: /logout
 
+admin:
+    resource: ../src/Controller/Admin/
+    type: annotation
+    prefix: /admin
+
+
