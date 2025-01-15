@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\PasswordField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 
 class UtilisateurCrudController extends AbstractCrudController
 {
@@ -26,7 +27,12 @@ class UtilisateurCrudController extends AbstractCrudController
                 ->setRequired(true),
             TextField::new('nom'),
             TextField::new('prenom'),
-            ArrayField::new('roles'),
+            ChoiceField::new('roles')
+                ->setChoices([
+                    'Utilisateur' => 'ROLE_USER',
+                    'Administrateur' => 'ROLE_ADMIN'
+                ])
+                ->allowMultipleChoices(),
             DateTimeField::new('date_inscription')->onlyOnIndex(),
         ];
     }
