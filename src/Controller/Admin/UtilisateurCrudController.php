@@ -22,9 +22,7 @@ class UtilisateurCrudController extends AbstractCrudController
     {
         return [
             EmailField::new('email'),
-            PasswordField::new('password')
-                ->onlyOnForms() // Ne s'affiche que dans les formulaires
-                ->setRequired(true),
+            PasswordField::new('password')->onlyOnForms()->setRequired(true),
             TextField::new('nom'),
             TextField::new('prenom'),
             ChoiceField::new('roles')

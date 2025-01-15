@@ -3,11 +3,13 @@ index:
     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
     defaults:
         route: app_login
+
 controllers:
     resource:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
 app_login:
     path: /login
     controller: App\Controller\SecurityController::login
@@ -17,7 +19,5 @@ app_logout:
 
 admin:
     resource: ../src/Controller/Admin/
-    type: annotation
+    type: attribute
     prefix: /admin
-
-
