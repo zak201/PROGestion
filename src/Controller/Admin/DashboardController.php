@@ -14,6 +14,7 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         // redirige vers une autre page ou affiche le tableau de bord
         return $this->render('admin/dashboard.html.twig');
     }

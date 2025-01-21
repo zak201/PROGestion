@@ -21,3 +21,6 @@ admin:
     resource: ../src/Controller/Admin/
     type: attribute
     prefix: /admin
+admin_dashboard:
+    path: /admin
+    controller: App\Controller\Admin\DashboardController::index
