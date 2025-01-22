@@ -4,12 +4,6 @@ index:
     defaults:
         route: app_login
 
-controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    type: attribute
-
 app_login:
     path: /login
     controller: App\Controller\SecurityController::login
@@ -17,10 +11,10 @@ app_login:
 app_logout:
     path: /logout
 
+app_home:
+    path: /home
+    controller: App\Controller\HomeController::index
+
 admin:
-    resource: ../src/Controller/Admin/
-    type: attribute
-    prefix: /admin
-admin_dashboard:
     path: /admin
     controller: App\Controller\Admin\DashboardController::index

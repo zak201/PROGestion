@@ -1,15 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Page d'accueil{% endblock %}
 
 {% block body %}
-    <h1>Accueil</h1>
-    <div class="cards">
-        {% for card in cards %}
-            <div class="card">
-                <h2>{{ card.title }}</h2>
-                <a href="{{ path(card.route) }}">Voir</a>
-            </div>
-        {% endfor %}
+    <h1>Bienvenue sur la page d'accueil</h1>
+    <div>
+        <a href="/admin">Accéder au Back-office</a>
     </div>
 {% endblock %}
