@@ -12,11 +12,7 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         return $this->render('home/index.html.twig', [
-            'cards' => [
-                ['title' => 'Lots', 'route' => 'app_lots'],
-                ['title' => 'Véhicules', 'route' => 'app_vehicules'],
-                ['title' => 'Avaries', 'route' => 'app_avaries'],
-            ],
+            'user' => $this->getUser()
         ]);
     }
 }

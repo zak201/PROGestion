@@ -1,23 +1,35 @@
+# Routes principales
 index:
     path: /
-    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
-    defaults:
-        route: app_login
+    controller: App\Controller\SecurityController::index
 
-controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    type: attribute
+app_home:
+    path: /home
+    controller: App\Controller\HomeController::index
 
+# Routes d'administration
+admin:
+    path: /admin
+    controller: App\Controller\Admin\DashboardController::index
+
+# Routes de gestion
+app_vehicules:
+    path: /vehicules
+    controller: App\Controller\VehiculeController::index
+
+app_lots:
+    path: /lots
+    controller: App\Controller\LotController::index
+
+app_avaries:
+    path: /avaries
+    controller: App\Controller\AvarieController::index
+
+# Routes d'authentification
 app_login:
     path: /login
     controller: App\Controller\SecurityController::login
 
 app_logout:
     path: /logout
-
-admin:
-    resource: ../src/Controller/Admin/
-    type: attribute
-    prefix: /admin
+    controller: App\Controller\SecurityController::logout

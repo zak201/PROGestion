@@ -40,4 +40,14 @@ class LotRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function countActive(): int
+    {
+        return $this->createQueryBuilder('l')
+            ->select('COUNT(l)')
+            ->where('l.statut = :statut')
+            ->setParameter('statut', 'actif')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

@@ -1,0 +1,8 @@
+framework:
+    profiler: false
+    
+    router:
+        strict_requirements: true
+        
+    php_errors:
+        log: true 

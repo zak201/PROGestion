@@ -25,6 +25,12 @@ class Vehicule
     #[ORM\Column(length: 255)]
     private ?string $statut = null;
 
+    #[ORM\ManyToOne(targetEntity: Lot::class, inversedBy: 'vehicules')]
+    private ?Lot $lot = null;
+
+    #[ORM\ManyToOne(targetEntity: Navire::class, inversedBy: 'vehicules')]
+    private ?Navire $navire = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +81,28 @@ class Vehicule
     {
         $this->statut = $statut;
 
+        return $this;
+    }
+
+    public function getLot(): ?Lot
+    {
+        return $this->lot;
+    }
+
+    public function setLot(?Lot $lot): self
+    {
+        $this->lot = $lot;
+        return $this;
+    }
+
+    public function getNavire(): ?Navire
+    {
+        return $this->navire;
+    }
+
+    public function setNavire(?Navire $navire): self
+    {
+        $this->navire = $navire;
         return $this;
     }
 }

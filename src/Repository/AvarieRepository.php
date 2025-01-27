@@ -40,4 +40,14 @@ class AvarieRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function countNonResolved(): int
+    {
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(a)')
+            ->where('a.dossier_cloture = :cloture')
+            ->setParameter('cloture', false)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

@@ -16,20 +16,20 @@ security:
             security: false
 
         main:
-            pattern: ^/
-            provider: app_user_provider
+            lazy: true
+            # Commenté temporairement
+            # provider: app_user_provider
+            # custom_authenticator: App\Security\UtilisateurAuthenticator
+            # logout:
+            #     path: app_logout
+            #     target: app_login
+            
+            # Désactiver la sécurité temporairement
             security: false
-            form_login:
-                login_path: app_login
-                check_path: app_login
-                enable_csrf: true
-                default_target_path: /home # Redirection après connexion réussie
-            logout:
-                path: app_logout
-                target: app_login
-            entry_point: form_login
 
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/home, roles: ROLE_USER }
-        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # Commenté temporairement
+        # - { path: ^/login$, roles: PUBLIC_ACCESS }
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/logistique, roles: ROLE_LOGISTICIEN }
+        # - { path: ^/, roles: IS_AUTHENTICATED_FULLY }

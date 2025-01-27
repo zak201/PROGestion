@@ -1,0 +1,4 @@
+twig:
+    debug: false
+    strict_variables: false
+    cache: false 

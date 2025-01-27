@@ -1,0 +1,10 @@
+easy_admin:
+    site_name: 'PROGestion'
+    design:
+        menu:
+            - { entity: 'Vehicule', icon: 'car' }
+            - { entity: 'Lot', icon: 'box' }
+            - { entity: 'Avarie', icon: 'exclamation-triangle' }
+            - { entity: 'Utilisateur', icon: 'users' }
+    formats:
+        datetime: 'd/m/Y H:i' 

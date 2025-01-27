@@ -3,13 +3,19 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-    <h1>Accueil</h1>
-    <div class="cards">
-        {% for card in cards %}
-            <div class="card">
-                <h2>{{ card.title }}</h2>
-                <a href="{{ path(card.route) }}">Voir</a>
+    <div class="container">
+        <h1>Bienvenue {{ user.prenom }} {{ user.nom }}</h1>
+        
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Gestion des Lots</h5>
+                        <p class="card-text">Gérer les lots de véhicules</p>
+                        <a href="{{ path('admin') }}" class="btn btn-primary">Accéder</a>
+                    </div>
+                </div>
             </div>
-        {% endfor %}
+        </div>
     </div>
 {% endblock %}

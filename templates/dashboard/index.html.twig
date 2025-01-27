@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+    <div class="dashboard">
+        <h1>Tableau de bord</h1>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Véhicules</h3>
+                {% for status, count in stats.vehicules %}
+                    <p>{{ status }}: {{ count }}</p>
+                {% endfor %}
+            </div>
+            
+            <div class="stat-card">
+                <h3>Lots</h3>
+                <p>Lots actifs: {{ stats.lots }}</p>
+            </div>
+            
+            <div class="stat-card">
+                <h3>Avaries</h3>
+                <p>Non résolues: {{ stats.avaries }}</p>
+            </div>
+            
+            <div class="stat-card">
+                <h3>Camions</h3>
+                <p>Disponibles: {{ stats.camions }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
