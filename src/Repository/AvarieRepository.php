@@ -45,9 +45,31 @@ class AvarieRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->select('COUNT(a)')
-            ->where('a.dossier_cloture = :cloture')
-            ->setParameter('cloture', false)
+            ->where('a.traitement != :traitement')
+            ->setParameter('traitement', 'termine')
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    public function findRecentAvaries(int $limit): array
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.date_signalement', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getWeeklyStats(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->select('WEEK(a.date_signalement) as week')
+            ->addSelect('COUNT(a) as count')
+            ->where('a.date_signalement >= :month_start')
+            ->setParameter('month_start', new \DateTime('first day of this month'))
+            ->groupBy('week')
+            ->orderBy('week', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 }

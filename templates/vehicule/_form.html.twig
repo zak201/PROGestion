@@ -1,0 +1,36 @@
+{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.numeroChassis, {
+                'attr': {'class': 'form-control'}
+            }) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.marque, {
+                'attr': {'class': 'form-control'}
+            }) }}
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-6">
+            {{ form_row(form.couleur, {
+                'attr': {'class': 'form-control'}
+            }) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.statut, {
+                'attr': {'class': 'form-select'}
+            }) }}
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-12">
+            {{ form_row(form.lot, {
+                'attr': {'class': 'form-select'}
+            }) }}
+        </div>
+    </div>
+    <div class="d-grid gap-2 mt-4">
+        <button class="btn btn-primary" type="submit">{{ button_label|default('Enregistrer') }}</button>
+    </div>
+{{ form_end(form) }} 

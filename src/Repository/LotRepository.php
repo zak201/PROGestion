@@ -46,8 +46,39 @@ class LotRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('l')
             ->select('COUNT(l)')
             ->where('l.statut = :statut')
-            ->setParameter('statut', 'actif')
+            ->setParameter('statut', 'en_cours')
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    public function findRecentLots(int $limit): array
+    {
+        return $this->createQueryBuilder('l')
+            ->orderBy('l.id', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getMonthlyStats(): array
+    {
+        return $this->createQueryBuilder('l')
+            ->select('MONTH(l.dateCreation) as month')
+            ->addSelect('COUNT(l) as count')
+            ->where('l.dateCreation >= :year_start')
+            ->setParameter('year_start', new \DateTime('first day of january this year'))
+            ->groupBy('month')
+            ->orderBy('month', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countByStatus(): array
+    {
+        return $this->createQueryBuilder('l')
+            ->select('l.statut, COUNT(l) as count')
+            ->groupBy('l.statut')
+            ->getQuery()
+            ->getResult();
     }
 }

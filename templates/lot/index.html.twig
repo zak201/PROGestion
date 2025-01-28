@@ -5,4 +5,14 @@
 {% block body %}
     <h1>Liste des Lots</h1>
     <p>Ceci est la page où vous pourrez gérer vos lots.</p>
+
+    {# Affichage de la pagination #}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    {# Affichage des éléments #}
+    {% for lot in pagination %}
+        {# votre code pour afficher chaque lot #}
+    {% endfor %}
 {% endblock %}

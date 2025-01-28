@@ -49,4 +49,23 @@ class VehiculeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findByFilters(array $filters): array
+    {
+        $qb = $this->createQueryBuilder('v')
+            ->leftJoin('v.lot', 'l')
+            ->leftJoin('v.navire', 'n');
+
+        if (isset($filters['statut'])) {
+            $qb->andWhere('v.statut = :statut')
+               ->setParameter('statut', $filters['statut']);
+        }
+
+        if (isset($filters['marque'])) {
+            $qb->andWhere('v.marque LIKE :marque')
+               ->setParameter('marque', '%'.$filters['marque'].'%');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

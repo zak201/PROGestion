@@ -22,3 +22,29 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\EventSubscriber\VehiculeSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }
+
+    App\Service\ChartService:
+        arguments:
+            $vehiculeRepository: '@App\Repository\VehiculeRepository'
+            $lotRepository: '@App\Repository\LotRepository'
+            $avarieRepository: '@App\Repository\AvarieRepository'
+            $entityManager: '@doctrine.orm.entity_manager'
+
+    App\Service\LotService:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $lotRepository: '@App\Repository\LotRepository'
+            $paginator: '@knp_paginator'
+            $logger: '@logger'
+
+    App\Service\StatisticsService:
+        arguments:
+            $vehiculeRepository: '@App\Repository\VehiculeRepository'
+            $lotRepository: '@App\Repository\LotRepository'
+            $avarieRepository: '@App\Repository\AvarieRepository'
+            $camionRepository: '@App\Repository\CamionRepository'
+            $logger: '@logger'

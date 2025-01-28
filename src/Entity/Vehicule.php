@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use App\Repository\VehiculeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: VehiculeRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Vehicule
 {
     #[ORM\Id]
@@ -13,23 +15,52 @@ class Vehicule
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $Numero_chassis = null;
+    #[ORM\Column(length: 17, unique: true)]
+    #[Assert\NotBlank(message: 'Le numéro de chassis est obligatoire')]
+    #[Assert\Length(
+        min: 17,
+        max: 17,
+        exactMessage: 'Le numéro de chassis doit contenir exactement 17 caractères'
+    )]
+    private ?string $numeroChassis = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'La marque est obligatoire')]
     private ?string $marque = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $couleur = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $statut = null;
+    #[Assert\Choice(
+        choices: ['disponible', 'en_lot', 'en_maintenance', 'vendu'],
+        message: 'Statut invalide'
+    )]
+    private ?string $statut = 'disponible';
 
     #[ORM\ManyToOne(targetEntity: Lot::class, inversedBy: 'vehicules')]
     private ?Lot $lot = null;
 
     #[ORM\ManyToOne(targetEntity: Navire::class, inversedBy: 'vehicules')]
     private ?Navire $navire = null;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -38,13 +69,12 @@ class Vehicule
 
     public function getNumeroChassis(): ?string
     {
-        return $this->Numero_chassis;
+        return $this->numeroChassis;
     }
 
-    public function setNumeroChassis(string $Numero_chassis): static
+    public function setNumeroChassis(string $numeroChassis): self
     {
-        $this->Numero_chassis = $Numero_chassis;
-
+        $this->numeroChassis = strtoupper($numeroChassis);
         return $this;
     }
 
@@ -104,5 +134,20 @@ class Vehicule
     {
         $this->navire = $navire;
         return $this;
+    }
+
+    public function isAvailable(): bool
+    {
+        return $this->statut === 'disponible';
+    }
+
+    public function canBeAddedToLot(): bool
+    {
+        return $this->isAvailable() && $this->lot === null;
+    }
+
+    public function __toString(): string
+    {
+        return $this->numeroChassis;
     }
 }
