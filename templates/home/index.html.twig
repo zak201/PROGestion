@@ -1,21 +1,101 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Tableau de bord{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .dashboard {
+        padding: 20px;
+    }
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+    .stat-box {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .cards-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+    .card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: transform 0.2s;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    .card-icon {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+    .card-title {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+    .card-stats {
+        color: #666;
+    }
+</style>
+{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1>Bienvenue {{ user.prenom }} {{ user.nom }}</h1>
-        
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Gestion des Lots</h5>
-                        <p class="card-text">Gérer les lots de véhicules</p>
-                        <a href="{{ path('admin') }}" class="btn btn-primary">Accéder</a>
-                    </div>
-                </div>
-            </div>
+<div class="dashboard">
+    <h1>Tableau de bord</h1>
+
+    {# Statistiques #}
+    <section class="stats-container">
+        <div class="stat-box">
+            <h3>Total Véhicules</h3>
+            <p class="stat-number">{{ stats.total_vehicules }}</p>
         </div>
-    </div>
+        <div class="stat-box">
+            <h3>Total Lots</h3>
+            <p class="stat-number">{{ stats.total_lots }}</p>
+        </div>
+        <div class="stat-box">
+            <h3>Total Avaries</h3>
+            <p class="stat-number">{{ stats.total_avaries }}</p>
+        </div>
+    </section>
+
+    {# Cards de navigation #}
+    <section class="cards-container">
+        <a href="{{ path('app_vehicule_index') }}" class="card">
+            <div class="card-icon">🚗</div>
+            <h2 class="card-title">Véhicules</h2>
+            <div class="card-stats">
+                <p>{{ stats.total_vehicules }} véhicules enregistrés</p>
+            </div>
+        </a>
+
+        <a href="{{ path('app_lot_index') }}" class="card">
+            <div class="card-icon">📦</div>
+            <h2 class="card-title">Lots</h2>
+            <div class="card-stats">
+                <p>{{ stats.total_lots }} lots enregistrés</p>
+            </div>
+        </a>
+
+        <a href="{{ path('app_avarie_index') }}" class="card">
+            <div class="card-icon">⚠️</div>
+            <h2 class="card-title">Avaries</h2>
+            <div class="card-stats">
+                <p>{{ stats.total_avaries }} avaries signalées</p>
+            </div>
+        </a>
+    </section>
+</div>
 {% endblock %}

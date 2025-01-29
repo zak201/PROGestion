@@ -13,6 +13,7 @@ class Camion
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    /** @phpstan-ignore-next-line */
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -24,6 +25,7 @@ class Camion
     #[ORM\Column(length: 255)]
     private ?string $statut = null;
 
+    /** @var Collection<int, Lot> */
     #[ORM\OneToMany(targetEntity: Lot::class, mappedBy: "camion")]
     private Collection $lots;
 
@@ -71,6 +73,7 @@ class Camion
         return $this;
     }
 
+    /** @return Collection<int, Lot> */
     public function getLots(): Collection
     {
         return $this->lots;

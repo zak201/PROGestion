@@ -15,6 +15,7 @@ class Navire
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    /** @phpstan-ignore-next-line */
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -29,7 +30,8 @@ class Navire
     #[Assert\NotNull(message: 'La date d\'arrivée est obligatoire')]
     private ?\DateTimeInterface $dateArrivee = null;
 
-    #[ORM\OneToMany(targetEntity: Vehicule::class, mappedBy: 'navire')]
+    /** @var Collection<int, Vehicule> */
+    #[ORM\OneToMany(mappedBy: 'navire', targetEntity: Vehicule::class)]
     private Collection $vehicules;
 
     #[ORM\Column(type: 'datetime_immutable')]

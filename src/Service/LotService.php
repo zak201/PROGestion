@@ -23,6 +23,7 @@ class LotService
 
     /**
      * Récupère les lots avec pagination et filtres
+     * @param array<string, mixed> $filters
      */
     public function getPaginatedLots(int $page, array $filters = []): object
     {
@@ -57,6 +58,7 @@ class LotService
 
     /**
      * Récupère les statistiques des lots
+     * @return array<string, mixed>
      */
     public function getLotStats(): array
     {
@@ -80,6 +82,7 @@ class LotService
 
     /**
      * Crée un nouveau lot
+     * @param array<string, mixed> $data
      * @throws \Exception Si la création échoue
      */
     public function createLot(array $data): Lot
@@ -117,6 +120,7 @@ class LotService
 
     /**
      * Met à jour un lot existant
+     * @param array<string, mixed> $data
      * @throws NotFoundHttpException Si le lot n'existe pas
      */
     public function updateLot(int $id, array $data): Lot

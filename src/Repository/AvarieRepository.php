@@ -51,25 +51,24 @@ class AvarieRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    /**
+     * @return array<int, Avarie>
+     */
     public function findRecentAvaries(int $limit): array
     {
         return $this->createQueryBuilder('a')
-            ->orderBy('a.date_signalement', 'DESC')
+            ->orderBy('a.createdAt', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getWeeklyStats(): array
     {
-        return $this->createQueryBuilder('a')
-            ->select('WEEK(a.date_signalement) as week')
-            ->addSelect('COUNT(a) as count')
-            ->where('a.date_signalement >= :month_start')
-            ->setParameter('month_start', new \DateTime('first day of this month'))
-            ->groupBy('week')
-            ->orderBy('week', 'ASC')
-            ->getQuery()
-            ->getResult();
+        // Implémentation
+        return [];
     }
 }

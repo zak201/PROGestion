@@ -9,6 +9,7 @@ use App\Repository\CamionRepository;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Psr\Log\LoggerInterface;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 /**
  * Service de gestion des statistiques globales
@@ -26,23 +27,29 @@ class StatisticsService
     /**
      * Récupère toutes les statistiques globales
      */
+    /** @return array<string, mixed> */
     public function getGlobalStatistics(): array
     {
         try {
             return [
-                'vehicules' => $this->getVehiculeStats(),
-                'lots' => $this->getLotStats(),
-                'avaries' => $this->getAvarieStats(),
-                'camions' => $this->getCamionStats()
+                'total_vehicules' => $this->vehiculeRepository->count([]),
+                'total_lots' => $this->lotRepository->count([]),
+                'total_avaries' => $this->avarieRepository->count([]),
+                // Retirer ou modifier les statistiques qui utilisent created_at
             ];
         } catch (\Exception $e) {
             $this->logger->error('Erreur lors de la récupération des statistiques globales', [
                 'error' => $e->getMessage()
             ]);
-            return $this->getEmptyStats();
+            return [
+                'total_vehicules' => 0,
+                'total_lots' => 0,
+                'total_avaries' => 0
+            ];
         }
     }
 
+    /** @return array<string, mixed> */
     private function getVehiculeStats(): array
     {
         return [
@@ -52,6 +59,7 @@ class StatisticsService
         ];
     }
 
+    /** @return array<string, mixed> */
     private function getLotStats(): array
     {
         return [
@@ -61,6 +69,7 @@ class StatisticsService
         ];
     }
 
+    /** @return array<string, mixed> */
     private function getAvarieStats(): array
     {
         return [
@@ -70,12 +79,13 @@ class StatisticsService
         ];
     }
 
+    /** @return array<string, mixed> */
     private function getCamionStats(): array
     {
         return [
             'total' => $this->camionRepository->count([]),
             'available' => $this->camionRepository->countAvailable(),
-            'in_mission' => $this->camionRepository->countByStatus('en_mission')
+            'in_mission' => $this->camionRepository->countByStatus()
         ];
     }
 
@@ -131,7 +141,11 @@ class StatisticsService
         }
     }
 
-    private function fillExportData($sheet, array $stats): void
+    /**
+     * @param Worksheet $sheet
+     * @param array<string, mixed> $stats
+     */
+    private function fillExportData(Worksheet $sheet, array $stats): void
     {
         $row = 4;
         foreach ($stats as $category => $data) {
@@ -143,6 +157,7 @@ class StatisticsService
         }
     }
 
+    /** @return array<string, mixed> */
     private function getEmptyStats(): array
     {
         return [

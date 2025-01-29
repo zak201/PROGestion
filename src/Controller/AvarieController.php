@@ -21,6 +21,12 @@ class AvarieController extends AbstractController
         private LoggerInterface $logger
     ) {}
 
+    #[Route('/avarie', name: 'app_avarie_index')]
+    public function index(): Response
+    {
+        return $this->render('avarie/index.html.twig');
+    }
+
     #[Route('', name: 'app_avaries')]
     public function index(Request $request): Response
     {

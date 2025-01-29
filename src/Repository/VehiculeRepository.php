@@ -41,6 +41,9 @@ class VehiculeRepository extends ServiceEntityRepository
     //        ;
     //    }
 
+    /**
+     * @return array<string, int>
+     */
     public function countByStatus(): array
     {
         return $this->createQueryBuilder('v')
@@ -50,6 +53,10 @@ class VehiculeRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @param array<string, mixed> $filters
+     * @return array<int, Vehicule>
+     */
     public function findByFilters(array $filters): array
     {
         $qb = $this->createQueryBuilder('v')
@@ -67,5 +74,17 @@ class VehiculeRepository extends ServiceEntityRepository
         }
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @return Vehicule[]
+     */
+    public function findRecentVehicules(int $limit): array
+    {
+        return $this->createQueryBuilder('v')
+            ->orderBy('v.createdAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
     }
 }

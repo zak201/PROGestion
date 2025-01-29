@@ -89,4 +89,10 @@ class VehiculeController extends AbstractController
             throw $this->createNotFoundException('Le véhicule demandé n\'existe pas');
         }
     }
+
+    #[Route('/vehicule', name: 'app_vehicule_index')]
+    public function index(): Response
+    {
+        return $this->render('vehicule/index.html.twig');
+    }
 }

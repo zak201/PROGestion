@@ -32,7 +32,6 @@ services:
             $vehiculeRepository: '@App\Repository\VehiculeRepository'
             $lotRepository: '@App\Repository\LotRepository'
             $avarieRepository: '@App\Repository\AvarieRepository'
-            $entityManager: '@doctrine.orm.entity_manager'
 
     App\Service\LotService:
         arguments:

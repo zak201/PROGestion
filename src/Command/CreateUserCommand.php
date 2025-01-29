@@ -40,7 +40,8 @@ class CreateUserCommand extends Command
         $user->setRoles(['ROLE_ADMIN']);
         $user->setNom($input->getArgument('nom'));
         $user->setPrenom($input->getArgument('prenom'));
-        $user->setDateInscription(new \DateTime());
+        $dateInscription = new \DateTimeImmutable();
+        $user->setDateInscription($dateInscription);
 
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user,

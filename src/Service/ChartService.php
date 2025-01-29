@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Repository\VehiculeRepository;
 use App\Repository\LotRepository;
 use App\Repository\AvarieRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  * Service pour la génération des graphiques du tableau de bord
@@ -13,14 +13,16 @@ use Doctrine\ORM\EntityManagerInterface;
 class ChartService
 {
     public function __construct(
+        #[Autowire(service: VehiculeRepository::class)]
         private readonly VehiculeRepository $vehiculeRepository,
+        #[Autowire(service: LotRepository::class)]
         private readonly LotRepository $lotRepository,
-        private readonly AvarieRepository $avarieRepository,
-        private readonly EntityManagerInterface $entityManager
+        #[Autowire(service: AvarieRepository::class)]
+        private readonly AvarieRepository $avarieRepository
     ) {}
 
     /**
-     * Génère tous les graphiques pour le tableau de bord
+     * @return array<string, mixed>
      */
     public function generateDashboardCharts(): array
     {
@@ -41,7 +43,7 @@ class ChartService
     }
 
     /**
-     * Génère le graphique des véhicules
+     * @return array<string, mixed>
      */
     private function generateVehiculeChart(): array
     {
@@ -72,7 +74,7 @@ class ChartService
     }
 
     /**
-     * Génère le graphique des lots
+     * @return array<string, mixed>
      */
     private function generateLotChart(): array
     {
@@ -115,7 +117,7 @@ class ChartService
     }
 
     /**
-     * Génère le graphique des avaries
+     * @return array<string, mixed>
      */
     private function generateAvarieChart(): array
     {
@@ -155,7 +157,7 @@ class ChartService
     }
 
     /**
-     * Génère les couleurs pour les graphiques
+     * @return array<int, string>
      */
     private function getChartColors(int $count): array
     {
@@ -175,7 +177,7 @@ class ChartService
     }
 
     /**
-     * Retourne un graphique vide en cas d'erreur
+     * @return array<string, mixed>
      */
     private function getEmptyChart(string $type): array
     {

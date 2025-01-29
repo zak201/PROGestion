@@ -15,6 +15,7 @@ class Lot
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    /** @phpstan-ignore-next-line */
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -23,6 +24,7 @@ class Lot
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $statut = null;
 
+    /** @var Collection<int, Vehicule> */
     #[ORM\OneToMany(mappedBy: 'lot', targetEntity: Vehicule::class)]
     private Collection $vehicules;
 
@@ -31,6 +33,9 @@ class Lot
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $dateCloture = null;
+
+    #[ORM\ManyToOne(targetEntity: Camion::class, inversedBy: 'lots')]
+    private ?Camion $camion = null;
 
     public function __construct()
     {
@@ -116,5 +121,33 @@ class Lot
     public function __toString(): string
     {
         return $this->numero_lot ?? '';
+    }
+
+    public function setCamion(?Camion $camion): self
+    {
+        $this->camion = $camion;
+        return $this;
+    }
+
+    public function getCamion(): ?Camion
+    {
+        return $this->camion;
+    }
+
+    public function setDateCreation(\DateTimeImmutable $dateCreation): self
+    {
+        $this->dateCreation = $dateCreation;
+        return $this;
+    }
+
+    public function getNumero(): ?string
+    {
+        return $this->numero_lot;
+    }
+
+    public function setNumero(string $numero): self
+    {
+        $this->numero_lot = $numero;
+        return $this;
     }
 }

@@ -12,7 +12,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class EasyAdminSubscriber implements EventSubscriberInterface
 {
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -27,7 +27,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function beforePersist(BeforeEntityPersistedEvent $event)
+    public function beforePersist(BeforeEntityPersistedEvent $event): void
     {
         $entity = $event->getEntityInstance();
 
@@ -40,24 +40,29 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         }
     }
 
-    public function beforeUpdate(BeforeEntityUpdatedEvent $event)
+    public function beforeUpdate(BeforeEntityUpdatedEvent $event): void
     {
         $entity = $event->getEntityInstance();
 
         if (method_exists($entity, 'setDateModification')) {
             $entity->setDateModification(new \DateTime());
         }
+
+        if ($entity instanceof Lot) {
+            // Logique de mise à jour
+        }
     }
 
-    private function generateLotNumber(Lot $lot)
+    private function generateLotNumber(Lot $lot): string
     {
-        if (!$lot->getNumero()) {
-            $prefix = date('Ymd');
-            $lastLot = $this->entityManager->getRepository(Lot::class)
-                ->findOneBy([], ['id' => 'DESC']);
-            
-            $sequence = $lastLot ? (intval(substr($lastLot->getNumero(), -4)) + 1) : 1;
-            $lot->setNumero(sprintf('%s%04d', $prefix, $sequence));
-        }
+        $prefix = 'LOT';
+        $lastLot = $this->entityManager->getRepository(Lot::class)
+            ->findOneBy([], ['id' => 'DESC']);
+        
+        $nextNumber = $lastLot ? (int)substr($lastLot->getNumero(), 3) + 1 : 1;
+        $numero = sprintf('%s%06d', $prefix, $nextNumber);
+        $lot->setNumero($numero);
+        
+        return $numero;
     }
 } 

@@ -8,8 +8,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\PasswordField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 
 class UtilisateurCrudController extends AbstractCrudController
 {
@@ -22,7 +22,9 @@ class UtilisateurCrudController extends AbstractCrudController
     {
         return [
             EmailField::new('email'),
-            PasswordField::new('password')->onlyOnForms()->setRequired(true),
+            Field::new('password', 'Mot de passe')
+                ->onlyOnForms()
+                ->setRequired(true),
             TextField::new('nom'),
             TextField::new('prenom'),
             ChoiceField::new('roles')

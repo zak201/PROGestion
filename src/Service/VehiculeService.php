@@ -19,6 +19,9 @@ class VehiculeService
         private PaginatorInterface $paginator
     ) {}
 
+    /**
+     * @param array<string, mixed> $filters
+     */
     public function getPaginatedVehicules(int $page, array $filters = []): object
     {
         $query = $this->vehiculeRepository->createQueryBuilder('v')
@@ -42,6 +45,10 @@ class VehiculeService
         );
     }
 
+    /**
+     * @param array<string, mixed> $data
+     * @return Vehicule
+     */
     public function createVehicule(array $data): Vehicule
     {
         $vehicule = new Vehicule();
@@ -69,6 +76,7 @@ class VehiculeService
         return $vehicule;
     }
 
+    /** @return array<string, mixed> */
     public function getVehiculeStats(): array
     {
         return [

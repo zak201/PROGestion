@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\Utilisateur;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,14 +23,15 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * - Confirmation avant création
  * - Validation stricte des données
  */
+#[AsCommand(
+    name: 'app:create-admin',
+    description: 'Crée un nouvel administrateur de manière sécurisée'
+)]
 class CreateAdminCommand extends Command
 {
-    protected static $defaultName = 'app:create-admin';
-    protected static $defaultDescription = 'Crée un nouvel administrateur de manière sécurisée';
-
-    private $entityManager;
-    private $passwordHasher;
-    private $validator;
+    private EntityManagerInterface $entityManager;
+    private UserPasswordHasherInterface $passwordHasher;
+    private ValidatorInterface $validator;
 
     public function __construct(
         EntityManagerInterface $entityManager, 

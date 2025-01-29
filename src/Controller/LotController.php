@@ -79,4 +79,10 @@ class LotController extends AbstractController
             'lot' => $lot
         ]);
     }
+
+    #[Route('/lot', name: 'app_lot_index')]
+    public function index(): Response
+    {
+        return $this->render('lot/index.html.twig');
+    }
 }

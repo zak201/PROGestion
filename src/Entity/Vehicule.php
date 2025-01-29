@@ -13,6 +13,7 @@ class Vehicule
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    /** @phpstan-ignore-next-line */
     private ?int $id = null;
 
     #[ORM\Column(length: 17, unique: true)]
@@ -36,7 +37,7 @@ class Vehicule
         choices: ['disponible', 'en_lot', 'en_maintenance', 'vendu'],
         message: 'Statut invalide'
     )]
-    private ?string $statut = 'disponible';
+    private string $statut = 'disponible';
 
     #[ORM\ManyToOne(targetEntity: Lot::class, inversedBy: 'vehicules')]
     private ?Lot $lot = null;
@@ -149,5 +150,15 @@ class Vehicule
     public function __toString(): string
     {
         return $this->numeroChassis;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
     }
 }

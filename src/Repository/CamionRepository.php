@@ -7,10 +7,11 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * @extends ServiceEntityRepository<Camion>
  * @method Camion|null find($id, $lockMode = null, $lockVersion = null)
- * @method Camion|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Camion|null findOneBy(array<string, mixed> $criteria, ?array<string, string> $orderBy = null)
  * @method Camion[]    findAll()
- * @method Camion[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Camion[]    findBy(array<string, mixed> $criteria, ?array<string, string> $orderBy = null, $limit = null, $offset = null)
  */
 class CamionRepository extends ServiceEntityRepository
 {
@@ -27,5 +28,15 @@ class CamionRepository extends ServiceEntityRepository
             ->setParameter('statut', 'disponible')
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    /** @return array<string, int> */
+    public function countByStatus(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.statut, COUNT(c) as count')
+            ->groupBy('c.statut')
+            ->getQuery()
+            ->getResult();
     }
 } 

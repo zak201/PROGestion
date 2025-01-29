@@ -1,15 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Véhicules{% endblock %}
 
 {% block body %}
-    <h1>Accueil</h1>
-    <div class="cards">
-        {% for card in cards %}
-            <div class="card">
-                <h2>{{ card.title }}</h2>
-                <a href="{{ path(card.route) }}">Voir</a>
-            </div>
-        {% endfor %}
+    <div class="container">
+        <h1>Gestion des Véhicules</h1>
+        <!-- Contenu à venir -->
     </div>
 {% endblock %}

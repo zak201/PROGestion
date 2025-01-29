@@ -6,9 +6,9 @@ use App\Entity\Vehicule;
 
 class VehiculeDTO
 {
-    private $id;
-    private $name;
-    private $lotId;
+    private ?int $id = null;
+    private ?string $name = null;
+    private ?int $lotId = null;
 
     public function __construct(
         public readonly string $numeroChassis,
@@ -25,33 +25,36 @@ class VehiculeDTO
         );
     }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId($id)
+    public function setId(int $id): self
     {
         $this->id = $id;
+        return $this;
     }
 
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
+        return $this;
     }
 
-    public function getLotId()
+    public function getLotId(): ?int
     {
         return $this->lotId;
     }
 
-    public function setLotId($lotId)
+    public function setLotId(int $lotId): self
     {
         $this->lotId = $lotId;
+        return $this;
     }
 } 

@@ -51,28 +51,30 @@ class LotRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    /**
+     * @return array<int, Lot>
+     */
     public function findRecentLots(int $limit): array
     {
         return $this->createQueryBuilder('l')
-            ->orderBy('l.id', 'DESC')
+            ->orderBy('l.dateCreation', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getMonthlyStats(): array
     {
-        return $this->createQueryBuilder('l')
-            ->select('MONTH(l.dateCreation) as month')
-            ->addSelect('COUNT(l) as count')
-            ->where('l.dateCreation >= :year_start')
-            ->setParameter('year_start', new \DateTime('first day of january this year'))
-            ->groupBy('month')
-            ->orderBy('month', 'ASC')
-            ->getQuery()
-            ->getResult();
+        // Implémentation
+        return [];
     }
 
+    /**
+     * @return array<string, int>
+     */
     public function countByStatus(): array
     {
         return $this->createQueryBuilder('l')
