@@ -64,12 +64,9 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         
         yield MenuItem::section('Gestion');
-        yield MenuItem::linkToCrud('Véhicules', 'fas fa-car', Vehicule::class)
-            ->setDefaultSort(['dateCreation' => 'DESC']);
-        yield MenuItem::linkToCrud('Lots', 'fas fa-box', Lot::class)
-            ->setDefaultSort(['dateCreation' => 'DESC']);
-        yield MenuItem::linkToCrud('Avaries', 'fas fa-exclamation-triangle', Avarie::class)
-            ->setDefaultSort(['dateCreation' => 'DESC']);
+        yield MenuItem::linkToCrud('Véhicules', 'fas fa-car', Vehicule::class);
+        yield MenuItem::linkToCrud('Lots', 'fas fa-box', Lot::class);
+        yield MenuItem::linkToCrud('Avaries', 'fas fa-exclamation-triangle', Avarie::class);
 
         yield MenuItem::section('Administration');
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', Utilisateur::class);

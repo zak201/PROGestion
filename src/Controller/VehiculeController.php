@@ -24,7 +24,6 @@ class VehiculeController extends AbstractController
     ) {}
 
     #[Route('/vehicules', name: 'app_vehicules')]
-    #[IsGranted('ROLE_USER')]
     public function index(Request $request): Response
     {
         try {
@@ -48,7 +47,7 @@ class VehiculeController extends AbstractController
         }
     }
 
-    #[Route('/new', name: 'app_vehicule_new')]
+    #[Route('/vehicule/new', name: 'app_vehicule_new')]
     #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request): Response
     {
@@ -74,7 +73,7 @@ class VehiculeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_vehicule_show', methods: ['GET'])]
+    #[Route('/vehicule/{id}', name: 'app_vehicule_show')]
     public function show(int $id): Response
     {
         try {
@@ -90,9 +89,4 @@ class VehiculeController extends AbstractController
         }
     }
 
-    #[Route('/vehicule', name: 'app_vehicule_index')]
-    public function index(): Response
-    {
-        return $this->render('vehicule/index.html.twig');
-    }
 }

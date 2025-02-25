@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 
 class VehiculeCrudController extends AbstractCrudController
 {
@@ -18,11 +19,18 @@ class VehiculeCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+            TextField::new('numeroChassis', 'Numéro de chassis'),
             TextField::new('marque', 'Marque'),
-            TextField::new('modele', 'Modèle'),
-            NumberField::new('annee', 'Année'),
-            TextField::new('immatriculation', 'Immatriculation'),
+            TextField::new('couleur', 'Couleur'),
+            ChoiceField::new('statut', 'Statut')
+                ->setChoices([
+                    'Disponible' => 'disponible',
+                    'En lot' => 'en_lot',
+                    'En maintenance' => 'en_maintenance',
+                    'Vendu' => 'vendu'
+                ]),
             AssociationField::new('lot', 'Lot associé'),
+            AssociationField::new('navire', 'Navire')
         ];
     }
 }

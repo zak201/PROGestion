@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AvarieRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Avarie
 {
     #[ORM\Id]
@@ -44,6 +45,17 @@ class Avarie
 
     #[ORM\Column]
     private ?bool $dossier_cloture = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $dateCreation = null;
+
+    #[ORM\ManyToOne(targetEntity: Vehicule::class)]
+    private ?Vehicule $vehicule = null;
+
+    public function __construct()
+    {
+        $this->dateCreation = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -167,6 +179,34 @@ class Avarie
     {
         $this->dossier_cloture = $dossier_cloture;
 
+        return $this;
+    }
+
+    public function getDateCreation(): ?\DateTimeImmutable
+    {
+        return $this->dateCreation;
+    }
+
+    public function setDateCreation(\DateTimeImmutable $dateCreation): self
+    {
+        $this->dateCreation = $dateCreation;
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setDateCreationValue(): void
+    {
+        $this->dateCreation = new \DateTimeImmutable();
+    }
+
+    public function getVehicule(): ?Vehicule
+    {
+        return $this->vehicule;
+    }
+
+    public function setVehicule(?Vehicule $vehicule): self
+    {
+        $this->vehicule = $vehicule;
         return $this;
     }
 }

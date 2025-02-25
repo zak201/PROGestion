@@ -21,10 +21,6 @@ app_lots:
     path: /lots
     controller: App\Controller\LotController::index
 
-app_avaries:
-    path: /avaries
-    controller: App\Controller\AvarieController::index
-
 # Routes d'authentification
 app_login:
     path: /login
@@ -33,3 +29,5 @@ app_login:
 app_logout:
     path: /logout
     controller: App\Controller\SecurityController::logout
+
+# Assurez-vous qu'il n'y a pas de configuration qui pourrait interférer

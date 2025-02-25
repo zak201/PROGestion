@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Lot{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col">
+                <h1>Créer un nouveau lot</h1>
+                <h4 class="text-muted">Semaine {{ weekNumber }}</h4>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                {{ form_start(form) }}
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            {{ form_row(form.numeroLot) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_row(form.dateExpedition) }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            {{ form_row(form.vehiculesInput) }}
+                            <small class="form-text text-muted">
+                                Saisissez les numéros de véhicules séparés par des virgules ou des espaces
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            {{ form_row(form.camionInput) }}
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Créer le lot
+                        </button>
+                        <a href="{{ path('app_lots') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Retour à la liste
+                        </a>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const vehiculesWrapper = document.querySelector('.vehicules');
+    const addButton = document.querySelector('.add-vehicule');
+    const maxItems = parseInt(vehiculesWrapper.dataset.maxItems);
+    let index = document.querySelectorAll('.vehicule-item').length;
+
+    function addVehiculeForm() {
+        if (index >= maxItems) {
+            alert('Vous ne pouvez pas ajouter plus de ' + maxItems + ' véhicules');
+            return;
+        }
+
+        const prototype = vehiculesWrapper.dataset.prototype;
+        const newForm = prototype.replace(/__name__/g, index);
+        const div = document.createElement('div');
+        div.classList.add('vehicule-item', 'mb-2');
+        div.innerHTML = newForm + 
+            '<button type="button" class="btn btn-danger btn-sm remove-vehicule">' +
+            '<i class="fas fa-trash"></i></button>';
+        
+        vehiculesWrapper.appendChild(div);
+        index++;
+    }
+
+    addButton.addEventListener('click', addVehiculeForm);
+
+    vehiculesWrapper.addEventListener('click', function(e) {
+        if (e.target.matches('.remove-vehicule, .remove-vehicule *')) {
+            e.target.closest('.vehicule-item').remove();
+            index--;
+        }
+    });
+});
+</script>
+{% endblock %} 

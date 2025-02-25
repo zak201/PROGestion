@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\VehiculeRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: VehiculeRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -50,6 +51,9 @@ class Vehicule
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $dateCreation = null;
 
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void

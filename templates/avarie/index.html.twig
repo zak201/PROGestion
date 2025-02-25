@@ -4,7 +4,57 @@
 
 {% block body %}
     <div class="container">
-        <h1>Gestion des Avaries</h1>
-        <p>Ceci est la page où vous pourrez gérer vos avaries.</p>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Liste des avaries</h1>
+            <a href="{{ path('app_avarie_new') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Signaler une avarie
+            </a>
+        </div>
+
+        {% if pagination.items|length > 0 %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Véhicule</th>
+                            <th>Description</th>
+                            <th>Responsabilité</th>
+                            <th>Date de signalement</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for avarie in pagination %}
+                            <tr>
+                                <td>{{ avarie.vehicule.numeroChassis }}</td>
+                                <td>{{ avarie.description|slice(0, 50) }}...</td>
+                                <td>{{ avarie.responsabilite }}</td>
+                                <td>{{ avarie.dateSignalement|date('d/m/Y H:i') }}</td>
+                                <td>
+                                    <span class="badge bg-{{ avarie.dossierCloture ? 'success' : 'warning' }}">
+                                        {{ avarie.dossierCloture ? 'Clôturé' : 'En cours' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{{ path('app_avarie_show', {'id': avarie.id}) }}" 
+                                       class="btn btn-sm btn-info">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                Aucune avarie n'a été signalée.
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

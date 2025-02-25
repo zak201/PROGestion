@@ -2,15 +2,15 @@
 
 namespace App\Form;
 
-use App\DTO\LotFormData;
+use App\Entity\Lot;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class LotType extends AbstractType
+class LotEditType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -18,29 +18,6 @@ class LotType extends AbstractType
         $friday = new \DateTime('friday this week');
 
         $builder
-            ->add('numeroLot', TextType::class, [
-                'label' => 'Numéro de lot',
-                'attr' => [
-                    'placeholder' => 'Saisissez le numéro de lot',
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('vehiculesInput', TextareaType::class, [
-                'label' => 'Numéros de véhicules',
-                'attr' => [
-                    'placeholder' => 'Collez ou saisissez les numéros de véhicules (séparés par des virgules ou des espaces)',
-                    'rows' => 3,
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('camionInput', TextType::class, [
-                'label' => 'Identifiant du camion (optionnel)',
-                'required' => false,
-                'attr' => [
-                    'placeholder' => 'Saisissez l\'identifiant du camion (optionnel)',
-                    'class' => 'form-control'
-                ]
-            ])
             ->add('dateExpedition', DateType::class, [
                 'widget' => 'single_text',
                 'html5' => true,
@@ -50,13 +27,36 @@ class LotType extends AbstractType
                     'max' => $friday->format('Y-m-d'),
                     'class' => 'form-control'
                 ]
+            ])
+            ->add('vehiculesInput', TextareaType::class, [
+                'mapped' => false,
+                'label' => 'Numéros de véhicules',
+                'attr' => [
+                    'placeholder' => 'Collez ou saisissez les numéros de véhicules (séparés par des virgules ou des espaces)',
+                    'rows' => 3,
+                    'class' => 'form-control'
+                ],
+                'data' => implode(', ', $options['vehicules_numeros'])
+            ])
+            ->add('camionInput', TextType::class, [
+                'mapped' => false,
+                'required' => false,
+                'label' => 'Identifiant du camion (optionnel)',
+                'attr' => [
+                    'placeholder' => 'Saisissez l\'identifiant du camion',
+                    'class' => 'form-control'
+                ],
+                'data' => $options['camion_immatriculation']
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => LotFormData::class,
+            'data_class' => Lot::class,
+            'validation_groups' => ['Default'],
+            'vehicules_numeros' => [],
+            'camion_immatriculation' => null
         ]);
     }
 } 

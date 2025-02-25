@@ -47,3 +47,8 @@ services:
             $avarieRepository: '@App\Repository\AvarieRepository'
             $camionRepository: '@App\Repository\CamionRepository'
             $logger: '@logger'
+
+    App\Service\AvarieService:
+        arguments:
+            $avarieRepository: '@App\Repository\AvarieRepository'
+            $paginator: '@knp_paginator'
