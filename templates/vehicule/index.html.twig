@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+<<<<<<< HEAD
 {% block title %}Hello VehiculeController!{% endblock %}
 
 {% block body %}
@@ -23,4 +24,102 @@
         Administration avancée
     </a>
 {% endif %}
+=======
+{% block title %}Liste des Véhicules{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Liste des Véhicules</h1>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_vehicule_new') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Nouveau véhicule
+                </a>
+            {% endif %}
+        </div>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% if pagination.items|length > 0 %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Numéro de châssis</th>
+                            <th>Marque</th>
+                            <th>Couleur</th>
+                            <th>Statut</th>
+                            <th>Lot</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vehicule in pagination %}
+                            <tr>
+                                <td>{{ vehicule.numeroChassis }}</td>
+                                <td>{{ vehicule.marque }}</td>
+                                <td>{{ vehicule.couleur }}</td>
+                                <td>
+                                    <span class="badge bg-{{ vehicule.statut == 'disponible' ? 'success' : 
+                                        (vehicule.statut == 'en_lot' ? 'info' : 
+                                        (vehicule.statut == 'en_maintenance' ? 'warning' : 'secondary')) }}">
+                                        {{ vehicule.statut|replace({'_': ' }'|capitalize }) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if vehicule.lot %}
+                                        <a href="{{ path('app_lot_show', {'id': vehicule.lot.id}) }}" class="badge bg-info text-decoration-none">
+                                            {{ vehicule.lot.numeroLot }}
+                                        </a>
+                                    {% else %}
+                                        <span class="text-muted">Non assigné</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="{{ path('app_vehicule_show', {'id': vehicule.id}) }}" 
+                                           class="btn btn-sm btn-info" title="Voir">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            <a href="{{ path('app_vehicule_edit', {'id': vehicule.id}) }}" 
+                                               class="btn btn-sm btn-warning" title="Modifier">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form method="post" action="{{ path('app_vehicule_delete', {'id': vehicule.id}) }}" 
+                                                  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?');" 
+                                                  style="display: inline-block">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ vehicule.id) }}">
+                                                <button class="btn btn-sm btn-danger" title="Supprimer">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                Aucun véhicule n'a été trouvé.
+            </div>
+        {% endif %}
+    </div>
+>>>>>>> a41ffa60622e7aed453f3d4e9d5deadd3dd2711b
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 {% endblock %}

@@ -6,5 +6,10 @@ easy_admin:
             - { entity: 'Lot', icon: 'box' }
             - { entity: 'Avarie', icon: 'exclamation-triangle' }
             - { entity: 'Utilisateur', icon: 'users' }
+        assets:
+            favicon: '/favicon.ico'
     formats:
-        datetime: 'd/m/Y H:i' 
+        datetime: 'd/m/Y H:i'
+    routes:
+        prefix: '/admin'
+        format: 'html' 

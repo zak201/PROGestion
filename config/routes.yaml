@@ -19,10 +19,6 @@ app_lots:
     defaults:
         _locale: fr
 
-app_avaries:
-    path: /avaries
-    controller: App\Controller\AvarieController::index
-
 # Routes d'authentification
 app_login:
     path: /login
@@ -32,3 +28,7 @@ app_logout:
     path: /logout
     controller: App\Controller\SecurityController::logout
 
+<<<<<<< HEAD
+=======
+# Assurez-vous qu'il n'y a pas de configuration qui pourrait interférer
+>>>>>>> a41ffa60622e7aed453f3d4e9d5deadd3dd2711b

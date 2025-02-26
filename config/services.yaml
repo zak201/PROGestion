@@ -48,7 +48,14 @@ services:
             $camionRepository: '@App\Repository\CamionRepository'
             $logger: '@logger'
 
+<<<<<<< HEAD
     App\Service\VehiculeManager:
         arguments:
             $slugger: '@slugger'
         tags: ['controller.service_arguments']
+=======
+    App\Service\AvarieService:
+        arguments:
+            $avarieRepository: '@App\Repository\AvarieRepository'
+            $paginator: '@knp_paginator'
+>>>>>>> a41ffa60622e7aed453f3d4e9d5deadd3dd2711b

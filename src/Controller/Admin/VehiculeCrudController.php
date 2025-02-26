@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+<<<<<<< HEAD
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repository\VehiculeRepository;
@@ -17,6 +18,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\VehiculeManager;
+=======
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+>>>>>>> a41ffa60622e7aed453f3d4e9d5deadd3dd2711b
 
 class VehiculeCrudController extends AbstractCrudController
 {
@@ -28,6 +32,7 @@ class VehiculeCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+<<<<<<< HEAD
             TextField::new('numeroChassis', 'N° Châssis'),
             TextField::new('marque', 'Marque'),
             TextField::new('couleur', 'Couleur'),
@@ -41,6 +46,20 @@ class VehiculeCrudController extends AbstractCrudController
             AssociationField::new('navire', 'Navire associé'),
             DateTimeField::new('createdAt', 'Créé le')->onlyOnIndex(),
             DateTimeField::new('updatedAt', 'Modifié le')->onlyOnDetail()
+=======
+            TextField::new('numeroChassis', 'Numéro de chassis'),
+            TextField::new('marque', 'Marque'),
+            TextField::new('couleur', 'Couleur'),
+            ChoiceField::new('statut', 'Statut')
+                ->setChoices([
+                    'Disponible' => 'disponible',
+                    'En lot' => 'en_lot',
+                    'En maintenance' => 'en_maintenance',
+                    'Vendu' => 'vendu'
+                ]),
+            AssociationField::new('lot', 'Lot associé'),
+            AssociationField::new('navire', 'Navire')
+>>>>>>> a41ffa60622e7aed453f3d4e9d5deadd3dd2711b
         ];
     }
 

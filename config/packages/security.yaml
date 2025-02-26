@@ -10,4 +10,9 @@ security:
                 path: app_logout
                 target: app_home
 
+<<<<<<< HEAD
     access_control: ~
+=======
+    access_control:
+        - { path: ^/, roles: PUBLIC_ACCESS }
+>>>>>>> a41ffa60622e7aed453f3d4e9d5deadd3dd2711b

@@ -18,6 +18,7 @@ use Symfony\Component\Security\Core\Annotation\IsGranted;
 #[Route('/vehicules', name: 'app_vehicule_')]
 class VehiculeController extends AbstractController
 {
+<<<<<<< HEAD
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(VehiculeService $vehiculeService): Response
     {
@@ -28,6 +29,65 @@ class VehiculeController extends AbstractController
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, VehiculeManager $vehiculeManager): Response
+=======
+    public function __construct(
+        private VehiculeService $vehiculeService,
+        private LoggerInterface $logger
+    ) {}
+
+    #[Route('/vehicules', name: 'app_vehicules')]
+    public function index(Request $request): Response
+    {
+        try {
+            $page = $request->query->getInt('page', 1);
+            $filters = $request->query->all('filter');
+
+            $pagination = $this->vehiculeService->getPaginatedVehicules($page, $filters);
+            $stats = $this->vehiculeService->getVehiculeStats();
+
+            return $this->render('vehicule/index.html.twig', [
+                'pagination' => $pagination,
+                'stats' => $stats,
+                'filters' => $filters
+            ]);
+        } catch (\Exception $e) {
+            $this->logger->error('Erreur lors de l\'affichage des véhicules', [
+                'error' => $e->getMessage()
+            ]);
+            $this->addFlash('error', 'Une erreur est survenue lors du chargement des véhicules');
+            return $this->redirectToRoute('app_home');
+        }
+    }
+
+    #[Route('/vehicule/new', name: 'app_vehicule_new')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function new(Request $request): Response
+    {
+        $form = $this->createForm(VehiculeType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $vehicule = $this->vehiculeService->createVehicule($form->getData());
+                $this->addFlash('success', 'Véhicule créé avec succès');
+                return $this->redirectToRoute('app_vehicule_show', ['id' => $vehicule->getId()]);
+            } catch (\Exception $e) {
+                $this->logger->error('Erreur lors de la création du véhicule', [
+                    'error' => $e->getMessage(),
+                    'data' => $form->getData()
+                ]);
+                $this->addFlash('error', 'Erreur lors de la création du véhicule');
+            }
+        }
+
+        return $this->render('vehicule/new.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/vehicule/{id}', name: 'app_vehicule_show')]
+    public function show(int $id): Response
+>>>>>>> a41ffa60622e7aed453f3d4e9d5deadd3dd2711b
     {
         $vehicule = new Vehicule();
         $form = $this->createForm(VehiculeType::class, $vehicule);
@@ -44,6 +104,7 @@ class VehiculeController extends AbstractController
         ]);
     }
 
+<<<<<<< HEAD
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Vehicule $vehicule): Response
     {
@@ -78,4 +139,6 @@ class VehiculeController extends AbstractController
 
         return $this->redirectToRoute('app_vehicule_index');
     }
+=======
+>>>>>>> a41ffa60622e7aed453f3d4e9d5deadd3dd2711b
 }

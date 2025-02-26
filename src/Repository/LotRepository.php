@@ -83,4 +83,57 @@ class LotRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * Méthode personnalisée pour vérifier les doublons en excluant le lot en cours
+     * 
+     * @param array<string, mixed> $criteria Les critères de recherche
+     * @param array<string, mixed>|null $entityData Les données de l'entité en cours
+     */
+    public function findDuplicateNumeroLot(array $criteria, ?array $entityData = null): ?Lot
+    {
+        try {
+            $qb = $this->createQueryBuilder('l')
+                ->select('l')
+                ->where('l.numero_lot = :numero_lot')
+                ->setParameter('numero_lot', $criteria['numero_lot']);
+
+            // En mode édition, on exclut le lot en cours
+            if ($entityData !== null && isset($entityData['id'])) {
+                $qb->andWhere('l.id != :currentId')
+                   ->setParameter('currentId', $entityData['id']);
+            }
+
+            // On limite à 1 résultat pour éviter les problèmes de résultats multiples
+            $qb->setMaxResults(1);
+
+            $result = $qb->getQuery()->getOneOrNullResult();
+
+            // Si on trouve un lot différent avec le même numéro, c'est un doublon
+            if ($result !== null && 
+                ($entityData === null || $result->getId() !== $entityData['id'])) {
+                return $result;
+            }
+
+            return null;
+        } catch (\Doctrine\ORM\NonUniqueResultException $e) {
+            // Log l'erreur pour le débogage
+            error_log("NonUniqueResultException dans findDuplicateNumeroLot: " . $e->getMessage());
+            // En cas d'erreur, on considère qu'il y a un doublon
+            return $this->findOneBy(['numero_lot' => $criteria['numero_lot']]);
+        }
+    }
+
+    public function findWithAssociations(int $id): ?Lot
+    {
+        return $this->createQueryBuilder('l')
+            ->leftJoin('l.camion', 'c')
+            ->addSelect('c')
+            ->leftJoin('l.vehicules', 'v')
+            ->addSelect('v')
+            ->where('l.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

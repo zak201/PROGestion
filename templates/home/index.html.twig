@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tableau de bord{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block stylesheets %}
 <style>
@@ -52,6 +52,7 @@
 {% endblock %}
 
 {% block body %}
+<<<<<<< HEAD
 <div class="dashboard">
     <h1>Tableau de bord</h1>
 
@@ -94,8 +95,54 @@
             <h2 class="card-title">Avaries</h2>
             <div class="card-stats">
                 <p>{{ stats.total_avaries }} avaries signalées</p>
+=======
+    <div class="container">
+        <h1>Bienvenue sur PROGestion</h1>
+        
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Véhicules</h5>
+                        <p class="card-text">Gérez votre flotte de véhicules</p>
+                        <a href="{{ path('app_vehicules') }}" class="btn btn-primary">Voir les véhicules</a>
+                    </div>
+                </div>
             </div>
-        </a>
-    </section>
-</div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Lots</h5>
+                        <p class="card-text">Gérez vos lots de véhicules</p>
+                        <a href="{{ path('app_lots') }}" class="btn btn-primary">Voir les lots</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Avaries</h5>
+                        <p class="card-text">Suivez les avaries signalées</p>
+                        <a href="{{ path('app_avaries') }}" class="btn btn-primary">Voir les avaries</a>
+                    </div>
+                </div>
+>>>>>>> a41ffa60622e7aed453f3d4e9d5deadd3dd2711b
+            </div>
+        </div>
+
+        {% if stats is defined %}
+        <div class="row mt-4">
+            <div class="col-12">
+                <h2>Statistiques</h2>
+                <ul class="list-group">
+                    <li class="list-group-item">Nombre de véhicules : {{ stats.vehicules }}</li>
+                    <li class="list-group-item">Nombre de lots : {{ stats.lots }}</li>
+                    <li class="list-group-item">Nombre d'avaries : {{ stats.avaries }}</li>
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </div>
 {% endblock %}

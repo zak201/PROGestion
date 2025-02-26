@@ -6,6 +6,7 @@ use App\Entity\Lot;
 use App\Repository\LotRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\Log\LoggerInterface;
 
@@ -24,14 +25,18 @@ class LotService
     /**
      * Récupère les lots avec pagination et filtres
      * @param array<string, mixed> $filters
+     * @return PaginationInterface<string, mixed>
      */
-    public function getPaginatedLots(int $page, array $filters = []): object
+    public function getPaginatedLots(int $page = 1, array $filters = []): PaginationInterface
     {
-        try {
-            $query = $this->lotRepository->createQueryBuilder('l')
-                ->leftJoin('l.vehicules', 'v')
-                ->addSelect('v');
+        $qb = $this->lotRepository->createQueryBuilder('l')
+            ->leftJoin('l.camion', 'c')
+            ->addSelect('c')
+            ->leftJoin('l.vehicules', 'v')
+            ->addSelect('v')
+            ->orderBy('l.dateCreation', 'DESC');
 
+<<<<<<< HEAD
             if (isset($filters['status'])) {
                 $query->andWhere('l.status = :status')
                       ->setParameter('status', $filters['status']);
@@ -53,7 +58,26 @@ class LotService
                 'filters' => $filters
             ]);
             throw $e;
+=======
+        if (!empty($filters['statut'])) {
+            $qb->andWhere('l.statut = :statut')
+                ->setParameter('statut', $filters['statut']);
+>>>>>>> a41ffa60622e7aed453f3d4e9d5deadd3dd2711b
         }
+
+        if (!empty($filters['search'])) {
+            $qb->andWhere('l.numero_lot LIKE :search')
+                ->setParameter('search', '%' . $filters['search'] . '%');
+        }
+
+        /** @var PaginationInterface<string, mixed> */
+        $pagination = $this->paginator->paginate(
+            $qb->getQuery(),
+            $page,
+            10
+        );
+
+        return $pagination;
     }
 
     /**

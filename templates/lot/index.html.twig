@@ -1,20 +1,95 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Lots{% endblock %}
+{% block title %}Liste des Lots{% endblock %}
 
 {% block body %}
     <div class="container">
-        <h1>Gestion des Lots</h1>
-        <p>Ceci est la page où vous pourrez gérer vos lots.</p>
-
-        {# Affichage de la pagination #}
-        <div class="navigation">
-            {{ knp_pagination_render(pagination) }}
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1>Liste des Lots</h1>
+                <h4 class="text-muted">Semaine {{ currentWeek }}</h4>
+            </div>
+            <a href="{{ path('app_lot_new') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Nouveau Lot
+            </a>
         </div>
 
-        {# Affichage des éléments #}
-        {% for lot in pagination %}
-            {# votre code pour afficher chaque lot #}
-        {% endfor %}
+        {% if lots|length > 0 %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Numéro</th>
+                            <th>Date d'expédition</th>
+                            <th>Camion</th>
+                            <th>Véhicules</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for lot in lots %}
+                            <tr>
+                                <td>{{ lot.numeroLot }}</td>
+                                <td>{{ lot.dateExpedition|date('d/m/Y') }}</td>
+                                <td>
+                                    {% if lot.camion %}
+                                        <span class="badge bg-info">
+                                            {{ lot.camion.immatriculation }}
+                                        </span>
+                                    {% else %}
+                                        <span class="text-muted">Non assigné</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if lot.vehicules|length > 0 %}
+                                        <div class="vehicules-list">
+                                            {% for vehicule in lot.vehicules %}
+                                                <span class="badge bg-secondary me-1">
+                                                    {{ vehicule.numeroChassis }}
+                                                </span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <span class="text-muted">Aucun véhicule</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="badge {% if lot.statut == 'en_attente' %}bg-warning{% elseif lot.statut == 'en_cours' %}bg-info{% else %}bg-success{% endif %}">
+                                        {{ lot.statutLabel }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="{{ path('app_lot_show', {'id': lot.id}) }}" class="btn btn-sm btn-info" title="Voir">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{{ path('app_lot_edit', {'id': lot.id}) }}" class="btn btn-sm btn-warning" title="Modifier">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <form method="post" action="{{ path('app_lot_delete', {'id': lot.id}) }}" 
+                                              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce lot ?');" 
+                                              style="display: inline-block">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ lot.id) }}">
+                                            <button class="btn btn-sm btn-danger" title="Supprimer">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="navigation">
+                {{ knp_pagination_render(lots) }}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                Aucun lot n'a été créé pour cette semaine.
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

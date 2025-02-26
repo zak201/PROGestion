@@ -3,31 +3,20 @@
 {% block title %}Tableau de bord{% endblock %}
 
 {% block body %}
-    <div class="dashboard">
-        <h1>Tableau de bord</h1>
+    <div class="dashboard-links">
+        <a href="{{ path('app_vehicules') }}" class="card">
+            <h3>Véhicules</h3>
+            <p>{{ stats.vehicules }} véhicules</p>
+        </a>
         
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h3>Véhicules</h3>
-                {% for status, count in stats.vehicules %}
-                    <p>{{ status }}: {{ count }}</p>
-                {% endfor %}
-            </div>
-            
-            <div class="stat-card">
-                <h3>Lots</h3>
-                <p>Lots actifs: {{ stats.lots }}</p>
-            </div>
-            
-            <div class="stat-card">
-                <h3>Avaries</h3>
-                <p>Non résolues: {{ stats.avaries }}</p>
-            </div>
-            
-            <div class="stat-card">
-                <h3>Camions</h3>
-                <p>Disponibles: {{ stats.camions }}</p>
-            </div>
-        </div>
+        <a href="{{ path('app_lots') }}" class="card">
+            <h3>Lots</h3>
+            <p>{{ stats.lots }} lots</p>
+        </a>
+        
+        <a href="{{ path('app_avaries') }}" class="card">
+            <h3>Avaries</h3>
+            <p>{{ stats.avaries }} avaries</p>
+        </a>
     </div>
 {% endblock %} 

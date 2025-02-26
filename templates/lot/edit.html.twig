@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le lot{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col">
+                <h1>Modifier le lot {{ lot.numeroLot }}</h1>
+                <h4 class="text-muted">Semaine {{ weekNumber }}</h4>
+            </div>
+        </div>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <div class="card">
+            <div class="card-body">
+                {{ form_start(form, {'attr': {'id': 'lot-edit-form'}}) }}
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            {{ form_row(form.dateExpedition) }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            {{ form_row(form.vehiculesInput) }}
+                            <small class="form-text text-muted">
+                                Saisissez les numéros de véhicules séparés par des virgules ou des espaces
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            {{ form_row(form.camionInput) }}
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Enregistrer les modifications
+                        </button>
+                        <a href="{{ path('app_lots') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Retour à la liste
+                        </a>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    {% block javascripts %}
+    <script>
+        document.getElementById('lot-edit-form').addEventListener('submit', function(e) {
+            // Désactiver le bouton submit pour éviter les doubles soumissions
+            const submitButton = this.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enregistrement...';
+        });
+    </script>
+    {% endblock %}
+{% endblock %} 

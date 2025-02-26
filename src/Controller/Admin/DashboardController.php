@@ -60,6 +60,7 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
+<<<<<<< HEAD
         return [
             MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
             MenuItem::section('Gestion'),
@@ -68,5 +69,19 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Lots', 'fa fa-boxes', Lot::class),
             MenuItem::linkToCrud('Navires', 'fa fa-ship', Navire::class)
         ];
+=======
+        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        
+        yield MenuItem::section('Gestion');
+        yield MenuItem::linkToCrud('Véhicules', 'fas fa-car', Vehicule::class);
+        yield MenuItem::linkToCrud('Lots', 'fas fa-box', Lot::class);
+        yield MenuItem::linkToCrud('Avaries', 'fas fa-exclamation-triangle', Avarie::class);
+
+        yield MenuItem::section('Administration');
+        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', Utilisateur::class);
+        
+        yield MenuItem::section('Liens utiles');
+        yield MenuItem::linkToRoute('Retour au site', 'fas fa-home', 'app_home');
+>>>>>>> a41ffa60622e7aed453f3d4e9d5deadd3dd2711b
     }
 }

@@ -14,7 +14,6 @@ class Camion
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    /** @phpstan-ignore-next-line */
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -28,7 +27,7 @@ class Camion
     private string $status = 'disponible';
 
     /** @var Collection<int, Lot> */
-    #[ORM\OneToMany(targetEntity: Lot::class, mappedBy: "camion")]
+    #[ORM\OneToMany(mappedBy: 'camion', targetEntity: Lot::class)]
     private Collection $lots;
 
     public function __construct()
@@ -36,7 +35,6 @@ class Camion
         $this->lots = new ArrayCollection();
     }
 
-    // Getters et Setters
     public function getId(): ?int
     {
         return $this->id;
@@ -84,7 +82,7 @@ class Camion
     public function addLot(Lot $lot): self
     {
         if (!$this->lots->contains($lot)) {
-            $this->lots[] = $lot;
+            $this->lots->add($lot);
             $lot->setCamion($this);
         }
         return $this;
@@ -93,10 +91,11 @@ class Camion
     public function removeLot(Lot $lot): self
     {
         if ($this->lots->removeElement($lot)) {
+            // Set the owning side to null (unless already changed)
             if ($lot->getCamion() === $this) {
                 $lot->setCamion(null);
             }
         }
         return $this;
     }
-} 
+}

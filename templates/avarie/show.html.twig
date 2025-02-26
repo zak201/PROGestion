@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de l'avarie{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Détails de l'avarie</h1>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Véhicule : {{ avarie.vehicule.numeroChassis }}</h5>
+                <p class="card-text">
+                    <strong>Description :</strong> {{ avarie.description }}<br>
+                    <strong>Responsabilité :</strong> {{ avarie.responsabilite }}<br>
+                    <strong>Traitement :</strong> {{ avarie.traitement }}<br>
+                    <strong>Zone de stock :</strong> {{ avarie.zoneStock }}<br>
+                    <strong>Date de signalement :</strong> {{ avarie.dateSignalement|date('d/m/Y H:i') }}<br>
+                    <strong>Statut :</strong> 
+                    <span class="badge bg-{{ avarie.dossierCloture ? 'success' : 'warning' }}">
+                        {{ avarie.dossierCloture ? 'Clôturé' : 'En cours' }}
+                    </span>
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <a href="{{ path('app_avaries') }}" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </div>
+{% endblock %} 
