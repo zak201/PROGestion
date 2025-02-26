@@ -32,12 +32,9 @@ class Vehicule
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $couleur = null;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\Choice(
-        choices: ['disponible', 'en_lot', 'en_maintenance', 'vendu'],
-        message: 'Statut invalide'
-    )]
-    private string $statut = 'disponible';
+    #[ORM\Column(length: 20)]
+    #[Assert\Choice(['disponible', 'bloque', 'en_maintenance'])]
+    private string $status = 'disponible';
 
     #[ORM\ManyToOne(targetEntity: Lot::class, inversedBy: 'vehicules')]
     private ?Lot $lot = null;
@@ -103,15 +100,14 @@ class Vehicule
         return $this;
     }
 
-    public function getStatut(): ?string
+    public function getStatus(): string
     {
-        return $this->statut;
+        return $this->status;
     }
 
-    public function setStatut(string $statut): static
+    public function setStatus(string $status): self
     {
-        $this->statut = $statut;
-
+        $this->status = $status;
         return $this;
     }
 
@@ -139,7 +135,7 @@ class Vehicule
 
     public function isAvailable(): bool
     {
-        return $this->statut === 'disponible';
+        return $this->status === 'disponible';
     }
 
     public function canBeAddedToLot(): bool

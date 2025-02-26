@@ -15,8 +15,8 @@ class Avarie
     /** @phpstan-ignore-next-line */
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $numéro_chassis = null;
+    #[ORM\Column(length: 255, name: 'numéro_chassis')]
+    private ?string $numeroChassis = null;
 
     #[ORM\Column(length: 255)]
     private ?string $modele = null;
@@ -27,8 +27,8 @@ class Avarie
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $date_signalement = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'date_signalement')]
+    private ?\DateTimeInterface $dateSignalement = null;
 
     #[ORM\Column(length: 255)]
     private ?string $traitement = null;
@@ -36,28 +36,35 @@ class Avarie
     #[ORM\Column]
     private ?bool $bloquage = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $zone_stock = null;
+    #[ORM\Column(length: 255, name: 'zone_stock')]
+    private ?string $zoneStock = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $lien_compound = null;
+    #[ORM\Column(length: 255, name: 'lien_compound', nullable: true)]
+    private ?string $lienCompound = null;
 
-    #[ORM\Column]
-    private ?bool $dossier_cloture = null;
+    #[ORM\Column(name: 'dossier_cloture')]
+    private ?bool $dossierCloture = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'date_creation')]
+    private ?\DateTimeInterface $dateCreation = null;
+
+    #[ORM\ManyToOne(targetEntity: Vehicule::class)]
+    #[ORM\JoinColumn(name: 'vehicule_id', referencedColumnName: 'id')]
+    private ?Vehicule $vehicule = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNuméroChassis(): ?string
+    public function getNumeroChassis(): ?string
     {
-        return $this->numéro_chassis;
+        return $this->numeroChassis;
     }
 
-    public function setNuméroChassis(string $numéro_chassis): static
+    public function setNumeroChassis(string $numeroChassis): static
     {
-        $this->numéro_chassis = $numéro_chassis;
+        $this->numeroChassis = $numeroChassis;
 
         return $this;
     }
@@ -100,12 +107,12 @@ class Avarie
 
     public function getDateSignalement(): ?\DateTimeInterface
     {
-        return $this->date_signalement;
+        return $this->dateSignalement;
     }
 
-    public function setDateSignalement(\DateTimeInterface $date_signalement): static
+    public function setDateSignalement(\DateTimeInterface $dateSignalement): static
     {
-        $this->date_signalement = $date_signalement;
+        $this->dateSignalement = $dateSignalement;
 
         return $this;
     }
@@ -136,36 +143,59 @@ class Avarie
 
     public function getZoneStock(): ?string
     {
-        return $this->zone_stock;
+        return $this->zoneStock;
     }
 
-    public function setZoneStock(string $zone_stock): static
+    public function setZoneStock(string $zoneStock): static
     {
-        $this->zone_stock = $zone_stock;
+        $this->zoneStock = $zoneStock;
 
         return $this;
     }
 
     public function getLienCompound(): ?string
     {
-        return $this->lien_compound;
+        return $this->lienCompound;
     }
 
-    public function setLienCompound(?string $lien_compound): static
+    public function setLienCompound(?string $lienCompound): static
     {
-        $this->lien_compound = $lien_compound;
+        $this->lienCompound = $lienCompound;
 
         return $this;
     }
 
     public function isDossierCloture(): ?bool
     {
-        return $this->dossier_cloture;
+        return $this->dossierCloture;
     }
 
-    public function setDossierCloture(bool $dossier_cloture): static
+    public function setDossierCloture(bool $dossierCloture): static
     {
-        $this->dossier_cloture = $dossier_cloture;
+        $this->dossierCloture = $dossierCloture;
+
+        return $this;
+    }
+
+    public function getDateCreation(): ?\DateTimeInterface
+    {
+        return $this->dateCreation;
+    }
+
+    public function setDateCreation(\DateTimeInterface $dateCreation): static
+    {
+        $this->dateCreation = $dateCreation;
+        return $this;
+    }
+
+    public function getVehicule(): ?Vehicule
+    {
+        return $this->vehicule;
+    }
+
+    public function setVehicule(?Vehicule $vehicule): static
+    {
+        $this->vehicule = $vehicule;
 
         return $this;
     }

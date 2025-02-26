@@ -57,7 +57,7 @@ class AvarieRepository extends ServiceEntityRepository
     public function findRecentAvaries(int $limit): array
     {
         return $this->createQueryBuilder('a')
-            ->orderBy('a.createdAt', 'DESC')
+            ->orderBy('a.dateCreation', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();

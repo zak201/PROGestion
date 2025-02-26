@@ -13,13 +13,11 @@ admin:
     controller: App\Controller\Admin\DashboardController::index
 
 # Routes de gestion
-app_vehicules:
-    path: /vehicules
-    controller: App\Controller\VehiculeController::index
-
 app_lots:
     path: /lots
     controller: App\Controller\LotController::index
+    defaults:
+        _locale: fr
 
 app_avaries:
     path: /avaries
@@ -33,3 +31,4 @@ app_login:
 app_logout:
     path: /logout
     controller: App\Controller\SecurityController::logout
+

@@ -22,7 +22,7 @@ class LotController extends AbstractController
     ) {}
 
     #[Route('/lots', name: 'app_lots')]
-    #[IsGranted('ROLE_USER')]
+
     public function index(Request $request): Response
     {
         try {
@@ -80,9 +80,4 @@ class LotController extends AbstractController
         ]);
     }
 
-    #[Route('/lot', name: 'app_lot_index')]
-    public function index(): Response
-    {
-        return $this->render('lot/index.html.twig');
-    }
 }

@@ -32,9 +32,9 @@ class LotService
                 ->leftJoin('l.vehicules', 'v')
                 ->addSelect('v');
 
-            if (isset($filters['statut'])) {
-                $query->andWhere('l.statut = :statut')
-                      ->setParameter('statut', $filters['statut']);
+            if (isset($filters['status'])) {
+                $query->andWhere('l.status = :status')
+                      ->setParameter('status', $filters['status']);
             }
 
             if (isset($filters['search'])) {
@@ -90,13 +90,13 @@ class LotService
         try {
             $lot = new Lot();
             $lot->setNumeroLot($this->generateLotNumber());
-            $lot->setStatut($data['statut'] ?? 'en_attente');
+            $lot->setStatus($data['status'] ?? 'en_attente');
             $lot->setDateCreation(new \DateTimeImmutable());
 
             if (isset($data['vehicules'])) {
                 foreach ($data['vehicules'] as $vehicule) {
                     $lot->addVehicule($vehicule);
-                    $vehicule->setStatut('en_lot');
+                    $vehicule->setStatus('en_lot');
                 }
             }
 
@@ -131,21 +131,21 @@ class LotService
                 throw new NotFoundHttpException('Lot non trouvé');
             }
 
-            if (isset($data['statut'])) {
-                $lot->setStatut($data['statut']);
+            if (isset($data['status'])) {
+                $lot->setStatus($data['status']);
             }
 
             if (isset($data['vehicules'])) {
                 // Retirer les anciens véhicules
                 foreach ($lot->getVehicules() as $vehicule) {
-                    $vehicule->setStatut('disponible');
+                    $vehicule->setStatus('disponible');
                     $lot->removeVehicule($vehicule);
                 }
 
                 // Ajouter les nouveaux
                 foreach ($data['vehicules'] as $vehicule) {
                     $lot->addVehicule($vehicule);
-                    $vehicule->setStatut('en_lot');
+                    $vehicule->setStatus('en_lot');
                 }
             }
 

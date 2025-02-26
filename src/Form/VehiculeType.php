@@ -39,13 +39,12 @@ class VehiculeType extends AbstractType
                 'label' => 'Couleur',
                 'required' => false
             ])
-            ->add('statut', ChoiceType::class, [
+            ->add('status', ChoiceType::class, [
                 'label' => 'Statut',
                 'choices' => [
                     'Disponible' => 'disponible',
-                    'En lot' => 'en_lot',
-                    'En maintenance' => 'en_maintenance',
-                    'Vendu' => 'vendu'
+                    'Bloqué' => 'bloque', 
+                    'En maintenance' => 'en_maintenance'
                 ],
                 'constraints' => [
                     new NotBlank(['message' => 'Le statut est obligatoire'])

@@ -6,6 +6,7 @@ use App\Repository\CamionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CamionRepository::class)]
 class Camion
@@ -22,8 +23,9 @@ class Camion
     #[ORM\Column(length: 255)]
     private ?string $conducteur = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $statut = null;
+    #[ORM\Column(length: 20)]
+    #[Assert\Choice(['disponible', 'en_mission', 'maintenance'])]
+    private string $status = 'disponible';
 
     /** @var Collection<int, Lot> */
     #[ORM\OneToMany(targetEntity: Lot::class, mappedBy: "camion")]
@@ -62,14 +64,14 @@ class Camion
         return $this;
     }
 
-    public function getStatut(): ?string
+    public function getStatus(): string
     {
-        return $this->statut;
+        return $this->status;
     }
 
-    public function setStatut(string $statut): self
+    public function setStatus(string $status): self
     {
-        $this->statut = $statut;
+        $this->status = $status;
         return $this;
     }
 

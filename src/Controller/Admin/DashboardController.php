@@ -15,8 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-// Commenté temporairement
-// #[IsGranted('ROLE_ADMIN')]
+
 class DashboardController extends AbstractDashboardController
 {
     private EntityManagerInterface $entityManager;
@@ -61,20 +60,13 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        
-        yield MenuItem::section('Gestion');
-        yield MenuItem::linkToCrud('Véhicules', 'fas fa-car', Vehicule::class)
-            ->setDefaultSort(['dateCreation' => 'DESC']);
-        yield MenuItem::linkToCrud('Lots', 'fas fa-box', Lot::class)
-            ->setDefaultSort(['dateCreation' => 'DESC']);
-        yield MenuItem::linkToCrud('Avaries', 'fas fa-exclamation-triangle', Avarie::class)
-            ->setDefaultSort(['dateCreation' => 'DESC']);
-
-        yield MenuItem::section('Administration');
-        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', Utilisateur::class);
-        
-        yield MenuItem::section('Liens utiles');
-        yield MenuItem::linkToRoute('Retour au site', 'fas fa-home', 'app_home');
+        return [
+            MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
+            MenuItem::section('Gestion'),
+            MenuItem::linkToCrud('Véhicules', 'fa fa-car', Vehicule::class),
+            MenuItem::linkToCrud('Avaries', 'fa fa-wrench', Avarie::class),
+            MenuItem::linkToCrud('Lots', 'fa fa-boxes', Lot::class),
+            MenuItem::linkToCrud('Navires', 'fa fa-ship', Navire::class)
+        ];
     }
 }

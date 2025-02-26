@@ -6,5 +6,8 @@ security:
         main:
             lazy: true
             security: false
+            logout:
+                path: app_logout
+                target: app_home
 
-    access_control: []
+    access_control: ~

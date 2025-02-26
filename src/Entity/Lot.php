@@ -21,11 +21,12 @@ class Lot
     #[ORM\Column(length: 255)]
     private ?string $numero_lot = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $statut = null;
+    #[ORM\Column(length: 50)]
+    #[Assert\Choice(['en_attente', 'en_cours', 'termine'])]
+    private string $status = 'en_attente';
 
     /** @var Collection<int, Vehicule> */
-    #[ORM\OneToMany(mappedBy: 'lot', targetEntity: Vehicule::class)]
+    #[ORM\OneToMany(mappedBy: 'lot', targetEntity: Vehicule::class, cascade: ['persist'])]
     private Collection $vehicules;
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -59,14 +60,14 @@ class Lot
         return $this;
     }
 
-    public function getStatut(): ?string
+    public function getStatus(): string
     {
-        return $this->statut;
+        return $this->status;
     }
 
-    public function setStatut(?string $statut): static
+    public function setStatus(string $status): self
     {
-        $this->statut = $statut;
+        $this->status = $status;
         return $this;
     }
 

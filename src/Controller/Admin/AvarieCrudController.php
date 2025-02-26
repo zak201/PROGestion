@@ -22,7 +22,8 @@ class AvarieCrudController extends AbstractCrudController
             TextField::new('titre', 'Titre'),
             TextareaField::new('description', 'Description'),
             AssociationField::new('vehicule', 'Véhicule associé'),
-            DateTimeField::new('date_signalement', 'Date de signalement')->onlyOnIndex(),
+            DateTimeField::new('dateCreation', 'Date de création')->onlyOnIndex(),
+            DateTimeField::new('dateSignalement', 'Date signalement'),
         ];
     }
 }

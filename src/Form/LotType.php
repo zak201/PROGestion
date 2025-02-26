@@ -16,7 +16,7 @@ class LotType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('statut', ChoiceType::class, [
+            ->add('status', ChoiceType::class, [
                 'choices' => [
                     'En attente' => 'en_attente',
                     'En cours' => 'en_cours',

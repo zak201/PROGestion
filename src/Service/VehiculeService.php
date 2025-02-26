@@ -26,12 +26,9 @@ class VehiculeService
     {
         $query = $this->vehiculeRepository->createQueryBuilder('v')
             ->leftJoin('v.lot', 'l')
-            ->addSelect('l');
-
-        if (isset($filters['statut'])) {
-            $query->andWhere('v.statut = :statut')
-                  ->setParameter('statut', $filters['statut']);
-        }
+            ->addSelect('l')
+            ->andWhere('v.status = :status')
+            ->setParameter('status', $filters['status']);
 
         if (isset($filters['marque'])) {
             $query->andWhere('v.marque LIKE :marque')
@@ -54,7 +51,7 @@ class VehiculeService
         $vehicule = new Vehicule();
         $vehicule->setNumeroChassis($data['numeroChassis']);
         $vehicule->setMarque($data['marque']);
-        $vehicule->setStatut($data['statut'] ?? 'disponible');
+        $vehicule->setStatus($data['status'] ?? 'disponible');
 
         $this->entityManager->persist($vehicule);
         $this->entityManager->flush();

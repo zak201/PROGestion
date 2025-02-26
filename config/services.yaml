@@ -47,3 +47,8 @@ services:
             $avarieRepository: '@App\Repository\AvarieRepository'
             $camionRepository: '@App\Repository\CamionRepository'
             $logger: '@logger'
+
+    App\Service\VehiculeManager:
+        arguments:
+            $slugger: '@slugger'
+        tags: ['controller.service_arguments']

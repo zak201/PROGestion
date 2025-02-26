@@ -13,7 +13,7 @@ class VehiculeDTO
     public function __construct(
         public readonly string $numeroChassis,
         public readonly string $marque,
-        public readonly string $statut
+        public readonly string $status
     ) {}
 
     public static function fromEntity(Vehicule $vehicule): self
@@ -21,7 +21,7 @@ class VehiculeDTO
         return new self(
             $vehicule->getNumeroChassis(),
             $vehicule->getMarque(),
-            $vehicule->getStatut()
+            $vehicule->getStatus()
         );
     }
 

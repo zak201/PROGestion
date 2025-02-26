@@ -33,5 +33,6 @@ class HomeController extends AbstractController
             ]);
             throw $e;
         }
+        return $this->render('home/index.html.twig');
     }
 }
